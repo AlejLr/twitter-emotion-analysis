@@ -1,0 +1,7 @@
+snscrape
+pandas>=2.0
+numpy>=1.24
+tqdm>=4.66
+python-dateutil>=2.9
+twscrape>=0.12
+aiofiles>=23.2
