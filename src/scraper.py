@@ -18,6 +18,7 @@ import argparse
 import os
 import re
 import sqlite3
+import asyncio
 from datetime import datetime
 from dateutil import parser as date_parser
 import pandas as pd
@@ -133,10 +134,10 @@ async def scrape_tweets(q, limit, since=None, until=None, cookies_path=None, csv
     set_log_level("WARNING")
     api = API()
     try:
-        await api.set_cookies(cookies_path)
+        api.pool.add_cookies_from_file(cookies_path)
     except Exception as e:
         print(f"Warning: Could not load cookies from {cookies_path}. Proceeding without cookies.")
-        await api.set_cookies(None)
+        pass
     
     search = search_query(q, since, until)
     rows, count = [], 0
@@ -172,14 +173,15 @@ def parse_arguments():
 
 def main():
     args = parse_arguments()
-    total_scraped, total_inserted = scrape_tweets(
+    total_scraped, total_inserted = asyncio.run(scrape_tweets(
         q=args.q,
         limit=args.limit,
         since=args.since,
         until=args.until,
+        cookies_path='secrets/twitter_cookies.txt',
         csv_path=args.csv,
         db_path=args.db
-    )
+    ))
     
     print(f"Fetched: {total_scraped} tweets | Inserted: {total_inserted} new tweets into the database.")
     
