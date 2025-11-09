@@ -25,6 +25,7 @@ import pandas as pd
 from tqdm import tqdm
 from twscrape import API, gather
 from twscrape.logger import set_log_level
+from twscrape.models import Account
 
 URL_PATTERN = re.compile(r"http[s]?://\S+")
 MULTISPACE = re.compile(r"\s+")
@@ -134,7 +135,7 @@ async def scrape_tweets(q, limit, since=None, until=None, cookies_path=None, csv
     set_log_level("WARNING")
     api = API()
     try:
-        api.pool.add_cookies_from_file(cookies_path)
+        await api.pool.add_accounts_from_file("secrets/twitter_cookies.txt")
     except Exception as e:
         print(f"Warning: Could not load cookies from {cookies_path}. Proceeding without cookies.")
         pass
