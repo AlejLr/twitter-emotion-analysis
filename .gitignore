@@ -6,8 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
-# Private cookie settings
-secrets/
+data/*.db
+data/*.parquet
+data/*.csv
+.secrets/
 
 # Distribution / packaging
 .Python

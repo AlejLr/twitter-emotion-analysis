@@ -1,7 +1,11 @@
-snscrape
 pandas>=2.0
 numpy>=1.24
-tqdm>=4.66
 python-dateutil>=2.9
-twscrape>=0.12
-aiofiles>=23.2
+tqdm>=4.66
+matplotlib>=3.8
+plotly>=5.24
+scikit-learn>=1.4
+vaderSentiment>=3.3.2
+Mastodon.py>=1.8.1
+praw>=7.7.1
+streamlit>=1.38
