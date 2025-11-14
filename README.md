@@ -2,6 +2,10 @@
 
 ## Project Overview
 
+**Twitter is not possible due to scrappers block and official API price**
+
+**-> Reddit and Mastodon were used instead**
+
 This project realizes an emotional analyzis of recent tweets around a given keyword.
 It collects tweets in real time, processes the text, and applies sentiment and emotion analysis to them.
 The results will be visualized in charts and dashboards.
