@@ -30,7 +30,7 @@ def initialize_db():
             url TEXT,
             keyword TEXT,
             score INT,
-            extra_data TEXT
+            extras TEXT
         )
         """)
         

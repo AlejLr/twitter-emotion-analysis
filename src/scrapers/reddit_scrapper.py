@@ -6,9 +6,11 @@ def redit_client(client_id, client_secret, user_agent):
                        client_secret=client_secret,
                         user_agent=user_agent)
 
-def scrape_reddit(rc, query, subreddit="all", limit=100):
+def scrape_reddit(rc, query, subreddit="all", limit=100, min_score=0, sort="top", time_filter="week"):
     data = []
-    for submission in rc.subreddit(subreddit).search(query, limit=limit):
+    for submission in rc.subreddit(subreddit).search(query=query, sort=sort, limit=limit, time_filter=time_filter):
+        if submission.score < min_score:
+            continue
         data.append({
             "id": f"reddit_{submission.id}",
             "source": "reddit",
