@@ -41,7 +41,26 @@ def initialize_db():
 def upsert_df(df: pd.DataFrame):
     if df.empty:
         return 0
-    with connect() as conn:
-        df.to_sql("posts", conn, if_exists="append", index=False)
     
-    return len(df)
+    with connect() as conn:
+        
+        cols = ["id","source","author","text","created_utc","url","keyword","score","extras"]
+        
+        df = df.copy()
+        for col in cols:
+            if col not in df.columns:
+                df[col] = None
+        df = df[cols]
+        
+        rows = [tuple(x) for x in df.itertuples(index=False, name=None)]
+        
+        before = conn.total_changes
+        conn.executemany("""
+        INSERT OR REPLACE INTO posts (id, source, author, text, created_utc, url, keyword, score, extras)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, rows)
+        
+        conn.commit()
+        after = conn.total_changes
+    
+    return after - before
